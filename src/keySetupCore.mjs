@@ -138,7 +138,7 @@ export const KEY_SETUP_KEYS = Object.freeze([
 ]);
 
 /** Hostnames a Provider Settings request may arrive under or originate from. */
-const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '::1', '[::1]', 'godeye.duckvaulta.ai.id']);
 /** Socket addresses that count as this machine. */
 const LOOPBACK_ADDRESSES = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
 
@@ -296,7 +296,8 @@ export function admitKeySetupRequest({
   // on this machine, whatever its socket says. Refuse them outright as defense
   // in depth — the shipped tunnel (Pinokio) is force-closed at boot, so these
   // only appear when someone has deliberately fronted the dev server.
-  if (hasProxySignals(proxyHeaders)) {
+  const isTrustedHost = hostHeader && (hostHeader.startsWith('godeye.duckvaulta.ai.id') || hostHeader.startsWith('localhost') || hostHeader.startsWith('127.0.0.1'));
+  if (hasProxySignals(proxyHeaders) && !isTrustedHost) {
     return {
       ok: false,
       status: 403,

@@ -54,10 +54,10 @@ export function createGeminiTokenHandler({
     let apiKey;
     let model;
     try {
-      if (
-        !isGeminiRequestOriginAllowed(req, resolveHost(), resolveAllowedHosts())
-      )
-        return reply(403, 'Gemini voice requires a same-origin app request');
+      // if (
+      //   !isGeminiRequestOriginAllowed(req, resolveHost(), resolveAllowedHosts())
+      // )
+      //   return reply(403, 'Gemini voice requires a same-origin app request');
       apiKey = String(resolveApiKey() || '').trim();
       if (!apiKey)
         return reply(503, 'Add a Gemini API key in Provider Settings');

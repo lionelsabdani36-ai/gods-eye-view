@@ -11,8 +11,8 @@ export function readVoiceProvider(storage, supported = ['openai', 'gemini']) {
   }
   return supported.includes(saved)
     ? saved
-    : supported.includes('openai')
-      ? 'openai'
+    : supported.includes('gemini')
+      ? 'gemini'
       : supported[0];
 }
 

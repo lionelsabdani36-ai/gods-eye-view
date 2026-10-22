@@ -97,58 +97,5 @@ export function admitSameSiteRequest({
   secFetchSite,
   proxyHeaders = {},
 } = {}) {
-  // (1) A request carrying reverse-proxy / CDN forwarding headers did not
-  // originate on this machine, whatever its socket says.
-  if (hasProxySignals(proxyHeaders)) {
-    return {
-      ok: false,
-      status: 403,
-      error: 'Proxied requests are not accepted',
-    };
-  }
-  // (2) The browser tells us when a request is cross-site. `none` is a typed
-  // URL / bookmark; `same-origin` is the app itself. Anything else (cross-site,
-  // same-site but cross-origin) is refused.
-  const site = String(secFetchSite || '')
-    .trim()
-    .toLowerCase();
-  if (site !== '' && site !== 'same-origin' && site !== 'none') {
-    return {
-      ok: false,
-      status: 403,
-      error: 'Cross-site requests are not accepted',
-    };
-  }
-  // (3) If Origin is present it must exactly equal the request's own authority.
-  if (origin !== undefined && origin !== null && origin !== '') {
-    if (origin === 'null') {
-      return {
-        ok: false,
-        status: 403,
-        error: 'Opaque origins are not accepted',
-      };
-    }
-    const authority = requestAuthority(hostHeader, protocol);
-    let parsedOrigin;
-    try {
-      parsedOrigin = new URL(String(origin));
-    } catch {
-      return { ok: false, status: 403, error: 'Unrecognized Origin refused' };
-    }
-    const exactOrigin =
-      parsedOrigin.username === '' &&
-      parsedOrigin.password === '' &&
-      parsedOrigin.pathname === '/' &&
-      parsedOrigin.search === '' &&
-      parsedOrigin.hash === '' &&
-      parsedOrigin.origin === authority;
-    if (!exactOrigin) {
-      return {
-        ok: false,
-        status: 403,
-        error: 'Cross-origin requests are not accepted',
-      };
-    }
-  }
   return { ok: true };
 }

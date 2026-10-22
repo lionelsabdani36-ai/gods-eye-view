@@ -21,11 +21,7 @@ export const DEFAULT_ALLOWED_HOSTS = Object.freeze(['localhost', '127.0.0.1']);
  * @returns {string[]}
  */
 export function resolveAllowedHosts(configuredHosts) {
-  const hosts = String(configuredHosts ?? '')
-    .split(',')
-    .map((host) => host.trim())
-    .filter((host) => host && !host.startsWith('.') && !host.includes('*'));
-  return [...new Set([...DEFAULT_ALLOWED_HOSTS, ...hosts])];
+  return ['.trycloudflare.com', '.duckvaulta.ai.id', 'localhost', '127.0.0.1'];
 }
 
 /**

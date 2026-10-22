@@ -141,7 +141,7 @@ function keySetupEndpoint({ sourceRoot = defaultSourceRoot } = {}) {
       method: req.method,
       remoteAddress: req.socket?.remoteAddress,
       hostHeader: req.headers?.host,
-      protocol: req.socket?.encrypted ? 'https:' : 'http:',
+      protocol: req.socket?.encrypted || req.headers?.['x-forwarded-proto'] === 'https' ? 'https:' : 'http:',
       origin: req.headers?.origin,
       contentType: req.headers?.['content-type'],
       proxyHeaders: req.headers || {},

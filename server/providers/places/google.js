@@ -483,6 +483,13 @@ export function googlePlacesContextProxy({
       const { latitude, longitude } = coordinates;
       return { ok: true, params: { latlng: `${latitude},${longitude}` } };
     });
+
+    middlewares.use('/api/google/tiles-token', (req, res) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-store');
+      res.end(JSON.stringify({ accessToken: null, expiresAt: 0 }));
+    });
   }
 
   return {
